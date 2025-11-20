@@ -1,4 +1,6 @@
-export const dummyUsers = [
+import { User } from "src/users/users-types";
+
+export const dummyUsers: User[] = [
         {
             "id": 1,
             "name": "Leanne Graham",

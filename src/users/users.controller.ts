@@ -9,36 +9,41 @@ import {
   Query,
 } from '@nestjs/common';
 import { dummyUsers } from 'dummy-data';
-import {User} from "../types/users-types"
-
-let users = dummyUsers
+import { CreateUserDto, UpdateUserDto, User } from './users-types';
+import { UsersService } from './users.service';
 
 @Controller('users')
 export class UsersController {
+  constructor(private readonly usersService: UsersService) {}
+
   @Get()
   findAll(@Query('role') role?: 'INTERN' | 'ENGINEER' | 'ADMIN'): User[] {
-    console.log(role)
-    return users;
+    return this.usersService.findAll(role);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string): User {
-    console.log(id);
-    return users[id];
+  findOne(@Param('id') id: string): User | undefined {
+    const parsedInt: number = parseInt(id);
+    if (parsedInt) {
+      return this.usersService.findOne(parsedInt);
+    }
   }
 
   @Post()
-  create(@Body() user: any) {
-    console.log(user);
+  create(@Body() user: CreateUserDto): User {
+    return this.usersService.create(user);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() userUpdate: {}) {
-    return { id, ...userUpdate };
+  update(
+    @Param('id') id: string,
+    @Body() userUpdate: UpdateUserDto,
+  ): User | undefined {
+    return this.usersService.update(+id, userUpdate);
   }
 
   @Delete(':id')
-  delete(@Param('id') id: string): string {
-    return `deleted user with id ${id}.`;
+  delete(@Param('id') id: string): User | undefined {
+    return this.usersService.delete(+id);
   }
 }
