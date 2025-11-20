@@ -27,16 +27,16 @@ export class UsersController {
   }
 
   @Post()
-  create(@Body() user: CreateUserDto): User {
-    return this.usersService.create(user);
+  create(@Body() createUserDto: CreateUserDto): User {
+    return this.usersService.create(createUserDto);
   }
 
   @Patch(':id')
   update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() userUpdate: UpdateUserDto,
+    @Body() updateUserDto: UpdateUserDto,
   ): User | undefined {
-    return this.usersService.update(id, userUpdate);
+    return this.usersService.update(id, updateUserDto);
   }
 
   @Delete(':id')

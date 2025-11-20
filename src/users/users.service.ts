@@ -17,7 +17,7 @@ export class UsersService {
     return this.users.find((user) => user.id === id);
   }
 
-  create(user: CreateUserDto): User {
+  create(createUserDto: CreateUserDto): User {
     // simulate DB creating an ID
     let maxId = this.users[0].id;
     const highestIdUser = this.users.reduce(
@@ -25,7 +25,7 @@ export class UsersService {
         currentUser.id > userWithMaxId.id ? currentUser : userWithMaxId,
     );
     const createdUser: User = {
-      ...user,
+      ...createUserDto,
       id: highestIdUser.id + 1,
     };
     // post to DB with user, NOT createdUser (simulating for now)
@@ -33,9 +33,9 @@ export class UsersService {
     return createdUser;
   }
 
-  update(id: number, update: UpdateUserDto) {
+  update(id: number, updateUserDto: UpdateUserDto) {
     const userIndex = this.users.findIndex((user) => user.id === id);
-    const updatedUser = { ...this.users[userIndex], ...update };
+    const updatedUser = { ...this.users[userIndex], ...updateUserDto };
     this.users[userIndex] = updatedUser;
     return this.findOne(id);
   }
