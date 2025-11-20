@@ -8,28 +8,21 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
-interface User {
-  id: number;
-  name: string;
-}
+import { dummyUsers } from 'dummy-data';
+import {User} from "../types/users-types"
 
-let users: User[] = [
-  { id: 1, name: 'Lino' },
-  { id: 2, name: 'Muriel' },
-  { id: 3, name: 'Fred' },
-  { id: 4, name: 'Anne' },
-];
+let users = dummyUsers
 
 @Controller('users')
 export class UsersController {
   @Get()
-  getAll(@Query('role') role?: 'INTERN' | 'ENGINEER' | 'ADMIN'): User[] {
+  findAll(@Query('role') role?: 'INTERN' | 'ENGINEER' | 'ADMIN'): User[] {
     console.log(role)
     return users;
   }
 
   @Get(':id')
-  getOne(@Param('id') id: string): User {
+  findOne(@Param('id') id: string): User {
     console.log(id);
     return users[id];
   }
