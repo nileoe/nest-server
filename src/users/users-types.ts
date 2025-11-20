@@ -1,3 +1,5 @@
+import { PartialType } from '@nestjs/mapped-types';
+
 export interface User {
   id: number;
   name: string;
@@ -5,5 +7,10 @@ export interface User {
   role: 'INTERN' | 'ENGINEER' | 'ADMIN';
 }
 
-export type CreateUserDto = Omit<User, 'id'>;
-export type UpdateUserDto = Partial<User>;
+export class CreateUserDto {
+  name: string;
+  email: string;
+  role: 'INTERN' | 'ENGINEER' | 'ADMIN';
+}
+
+export class UpdateUserDto extends PartialType(CreateUserDto) {}
